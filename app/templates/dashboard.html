@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            width: 90%;
+            max-width: 800px;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            text-align: center;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+
+        .card h1 {
+            margin-bottom: 20px;
+            color: #333333;
+        }
+
+        .data-container {
+            text-align: left;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            max-height: 600px;
+            overflow-y: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .data-container .data-item {
+            margin-bottom: 20px;
+        }
+
+        .data-container .data-item h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555555;
+        }
+
+        .data-container .data-item p {
+            font-size: 14px;
+            color: #666666;
+            white-space: pre-wrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .data-container .data-item:not(:last-child) {
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Actions On action_repo</h1>
+        <div class="data-container" id="recent-data-container"></div>
+    </div>
+
+    <script>
+        function fetchData() {
+            fetch('/getrecents/recent')
+                .then(response => response.json())
+                .then(data => {
+                    const dataContainer = document.getElementById('recent-data-container');
+                    dataContainer.innerHTML = '';
+
+                    data.forEach(item => {
+                        const dataItem = document.createElement('div');
+                        dataItem.classList.add('data-item');
+
+                        const header = document.createElement('h3');
+                        header.textContent = 'Action: ' + item['action'];
+
+                        const paragraph = document.createElement('p');
+                        if (item['action'] == "PUSH") {
+                            paragraph.textContent = `"${item['author']}" pushed to "${item['to_branch']}" on ${item['timestamp']}`
+                        } else if (item['action'] == "PULL_REQUEST") {
+                            paragraph.textContent = `"${item['author']}" submitted a pull request from "${item['from_branch']}" to "${item['to_branch']}" on ${item['timestamp']}`
+                        } else if (item['action'] == "MERGE") {
+                            paragraph.textContent = `"${item['author']}" merged branch "${item['from_branch']}" to "${item['to_branch']}" on ${item['timestamp']}`
+                        }
+                        
+
+                        dataItem.appendChild(header);
+                        dataItem.appendChild(paragraph);
+                        dataContainer.appendChild(dataItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        
+        fetchData();
+
+        
+        setInterval(fetchData, 15000);
+    </script>
+</body>
+
+</html>

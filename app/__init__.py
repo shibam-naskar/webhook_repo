@@ -6,7 +6,6 @@ from app.getrecents.routes import getrecents
 def create_app():
     app = Flask(__name__)
 
-    # Initialize extensions
     init_app(app)
 
     # Register Blueprints
