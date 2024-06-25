@@ -30,18 +30,36 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+* create a .env file in the root directory
+* .env file content for local db
+
+```bash
+MONGO_URI=mongodb://localhost:27017/ACTIONS
+```
+
 * Run the flask application (In production, please use Gunicorn)
 
 ```bash
 python run.py
 ```
 
-* The endpoint is at:
+* The endpoint for webhook is at:
 
 ```bash
 POST http://127.0.0.1:5000/webhook/receiver
 ```
 
-You need to use this as the base and setup the flask app. Integrate this with MongoDB (commented at `app/extensions.py`)
+* The endpoint for getdata is at:
+
+```bash
+GET http://127.0.0.1:5000/getrecents/recent
+```
+
+* The endpoint for Frontend is at:
+
+```bash
+GET http://127.0.0.1:5000/getrecents/dashboard
+```
+
 
 *******************
