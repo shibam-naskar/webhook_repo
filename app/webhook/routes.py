@@ -32,7 +32,7 @@ def receiver():
                 'action' :"MERGE" if merge else "PULL_REQUEST",
                 'from_branch' : from_branch,
                 'to_branch' : to_branch,
-                'timestamp' : datetime.now()
+                'timestamp' : datetime.utcnow()
             }
 
             #inserting to the database
@@ -50,7 +50,7 @@ def receiver():
                 'action' :'PUSH',
                 'from_branch' : from_branch,
                 'to_branch' : to_branch,
-                'timestamp' : datetime.now()
+                'timestamp' : datetime.utcnow()
             }
 
             #data base insertion
