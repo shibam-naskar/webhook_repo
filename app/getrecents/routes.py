@@ -16,8 +16,6 @@ def get_recent_data():
     
     for data in recent_data:
         data['_id'] = str(data['_id'])
-
-    print(recent_data)
     
     return jsonify(recent_data), 200
 
