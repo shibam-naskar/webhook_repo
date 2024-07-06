@@ -14,6 +14,8 @@ def receiver():
 
         def insert_data(pr_data):
             collection.insert_one(pr_data).inserted_id
+
+        print(datetime.now)
         
         if data:
             if event_type == "pull_request":
@@ -29,7 +31,7 @@ def receiver():
                     'action': "MERGE" if merge else "PULL_REQUEST",
                     'from_branch': from_branch,
                     'to_branch': to_branch,
-                    'timestamp': datetime.utcnow()
+                    'timestamp': datetime.now()
                 }
 
                 insert_data(pr_data)
@@ -46,7 +48,7 @@ def receiver():
                     'action': 'PUSH',
                     'from_branch': from_branch,
                     'to_branch': to_branch,
-                    'timestamp': datetime.utcnow()
+                    'timestamp': datetime.now()
                 }
 
                 insert_data(pr_data)
